@@ -1,5 +1,5 @@
 define(['wrap!jquery', 
-		'/js/moxie/request_animation_frame.js'], 	function($, request_animation_frame) {
+		'js/moxie/request_animation_frame'], 	function($, request_animation_frame) {
 
 	var PerfMon = function() {
 		

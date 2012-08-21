@@ -1,4 +1,4 @@
-define(['/js/moxie/request_animation_frame.js'], function(requestAnimationFrame) {
+define(['js/moxie/request_animation_frame'], function(requestAnimationFrame) {
 	var GreenThreader = function() {
 		this._running = false;
 		this._tasks = [];
