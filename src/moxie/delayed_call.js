@@ -33,32 +33,29 @@ define(function () {
 		this._timer = null;
 	}
 
-	DelayedCall.prototype._init = function () {
-	}
-
-	DelayedCall.prototype.trigger = function () {
-		if (this._timer)
-		{
-			clearTimeout(this._timer);
-			this._timer = null;
+	DelayedCall.prototype = {
+		trigger: function () {
+			if (this._timer)
+			{
+				clearTimeout(this._timer);
+				this._timer = null;
+			}
+			this._timer = setTimeout(this.fire.bind(this), this._delay);
+		},
+		fire: function (event) {
+			this._targetFunction.apply(this._thisObject, this._args);
+		},
+		dispose: function () {
+			if (this._timer)
+			{
+				clearTimeout(this._timer);
+				this._timer = null;
+			}
+			this._targetFunction = null;
+			this._delay = null;
+			this._thisObject = null;
+			this._args = null;
 		}
-		this._timer = setTimeout(this.fire.bind(this), this._delay);
-	}
-
-	DelayedCall.prototype.fire = function (event) {
-		this._targetFunction.apply(this._thisObject, this._args);
-	}
-
-	DelayedCall.prototype.dispose = function () {
-		if (this._timer)
-		{
-			clearTimeout(this._timer);
-			this._timer = null;
-		}
-		this._targetFunction = null;
-		this._delay = null;
-		this._thisObject = null;
-		this._args = null;
 	}
 	return DelayedCall;
 });
