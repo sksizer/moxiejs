@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type='text/javascript' src='/js/require.js'></script>
+	<script type='text/javascript' src='/js/require_config.js'></script>
+	
+	<title>Performance: FPS</title>
+	<script>
+		require_config.baseURL = '/';
+		require(require_config, ['domReady!', 
+			'/js/moxie/green_threader.js', 
+			'/js/moxie/perf_mon.js', 
+			'jquery'], function (DomReady, GreenThreader, PerfMon, $) {
+
+			var fps = new PerfMon()
+							.setContainer(document.getElementById('fps'));
+
+			var runTest = function(n) {
+				for (var i=0;i<n;i++)
+				{
+					GreenThreader.addTask(function() {100+200;});
+				}
+			}
+
+			$('#start50000').on('click', function() {
+				runTest(50000);
+			});
+			$('#start100000').on('click', function() {
+				runTest(100000);
+			});
+			$('#start100001').on('click', function() {
+				runTest(100001);
+			});
+			$('#start110000').on('click', function() {
+				runTest(110000);
+			});
+			$('#start115000').on('click', function() {
+				runTest(115000);
+			});
+			$('#start120000').on('click', function() {
+				runTest(120000);
+			});
+			$('#start138500').on('click', function() {
+				runTest(138500);
+			});
+			$('#start175000').on('click', function() {
+				runTest(175000);
+			});
+			$('#start250000').on('click', function() {
+				runTest(250000);
+			});
+			$('#start500000').on('click', function() {
+				runTest(500000);
+			});
+			$('#start1000000').on('click', function() {
+				runTest(1000000);
+			});
+			$('#start10000000').on('click', function() {
+				runTest(10000000);
+			});
+		});
+	</script>
+	<style>
+		#controls {
+			float: left;
+		}
+		#fps {
+			float: left;
+		}
+	</style>
+</head>
+<body>
+	<div id="controls">
+		<div>
+			<button id="start50000">Start - 50,000</button>
+		</div>
+		<div>
+			<button id="start100000">Start - 100,000</button>
+		</div>
+		<div>
+			<button id="start100001">Start - 100,001</button>
+		</div>
+		<div>
+			<button id="start110000">Start - 110,000</button>
+		</div>
+		<div>
+			<button id="start115000">Start - 115,000</button>
+		</div>
+		<div>
+			<button id="start120000">Start - 120,000</button>
+		</div>
+		<div>
+			<button id="start138500">Start - 138,500</button>
+		</div>
+		<div>
+			<button id="start175000">Start - 175,000</button>
+		</div>
+		<div>
+			<button id="start250000">Start - 250,000</button>
+		</div>
+		<div>
+			<button id="start500000">Start - 500,000</button>
+		</div>
+		<div>
+			<button id="start1000000">Start - 1,000,000</button>
+		</div>
+		<div>
+			<button id="start10000000">Start - 10,000,000</button>
+		</div>
+	</div>
+	<div id="fps">
+	</div>
+</body>
+</html>

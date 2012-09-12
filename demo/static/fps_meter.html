@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+</body>
+</html>
+<!--// Delayed Call-->
+<!--var finalCall = function() {-->
+	<!--console.log('finalCall!');-->
+<!--}-->
+<!--var delayedCall = new DelayedCall({targetFunction:finalCall,delay:1000});-->
+<!--$('#trigger').on('click', function() {-->
+	<!--console.log('trigger click');-->
+	<!--delayedCall.trigger();-->
+<!--});-->
+		
+		
+function (DomReady, PerfMon, requestAnimFrame, $) {
+	var fps = new PerfMon()
+				.setContainer(document.getElementById('perfMonContainer'))
+});
