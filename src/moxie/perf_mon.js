@@ -23,7 +23,6 @@ define(['jquery',
     'js/moxie/request_animation_frame'], function($, request_animation_frame) {
 
     var PerfMon = function() {
-
     }
 
     PerfMon.prototype._initialize = function() {

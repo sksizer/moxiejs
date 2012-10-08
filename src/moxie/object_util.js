@@ -34,7 +34,8 @@ define([], function() {
             return defaultValue;
     }
 
-    // Usage: dump(object)
+    // Usage: dump(object) 
+    // TODO - found and modified this from somewhere - find original attribution
     ObjectUtil.dump = function(object, pad) {
         var indent = '\t'
         if (!pad) pad = ''

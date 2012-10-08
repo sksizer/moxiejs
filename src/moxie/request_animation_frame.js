@@ -20,6 +20,7 @@
  */
 
 define(function() {
+    // TODO - this was originally sourced from StackOverflow - attribute properly
     // shim layer with setTimeout fallback
     var requestAnimFrame = (function() {
         return  window.requestAnimationFrame ||

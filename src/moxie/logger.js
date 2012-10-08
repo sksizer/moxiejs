@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Shane Sizer
+ * Copyright (c) 2012 Shane Sizer, Michael Paulson
  *
  * Permission is hereby granted, free of charge, to any person obtaining a 
  * copy of this software and associated documentation files (the "Software"), 
@@ -20,10 +20,10 @@
  */
 
 define(function() {
-    var _DEBUG 	= console && console.debug 	? function(message) {console.debug(message) } 	: function(message) {console.log('Debug: ' + message)};
-    var _INFO 	= console && console.info 	? function(message) {console.info(message)} 	: function(message) {console.log('Info: ' + message)};
-    var _WARN	= console && console.warn 	? function(message) {console.warn(message)} 	: function(message) {console.warn('WARNING: ' + message)}
-    var _ERROR	= console && console.error 	? function(message) {console.error(message)}	: function(message) {console.log('ERROR: ' + message)};
+	var _DEBUG 	= console && console.debug 	? function(message) {console.debug(message) } 	: function(message) {console.log('Debug: ' + message)};
+	var _INFO 	= console && console.info 	? function(message) {console.info(message)} 	: function(message) {console.log('Info: ' + message)};
+	var _WARN	= console && console.warn 	? function(message) {console.warn(message)} 	: function(message) {console.warn('WARNING: ' + message)}
+	var _ERROR	= console && console.error 	? function(message) {console.error(message)}	: function(message) {console.log('ERROR: ' + message)};
 
     var Logger = function(category) {
         this._initialize(category);
@@ -35,9 +35,6 @@ define(function() {
         _initialize: function(category) {
             this._category = category;
         },
-        _createMessage: function(message) {
-            return this._category + ' : ' + message;
-        },
 
         //--------------------------------------------------------------------------
         //
@@ -45,21 +42,21 @@ define(function() {
         //
         //--------------------------------------------------------------------------
 
-        debug: function(message) {
+        debug: function(message, context) {
             if (!this._enabled) return;
-            _DEBUG(this._createMessage(message));
+            this._output(_DEBUG, message, context, "");
         },
-        info: function(message) {
+        info: function(message, context) {
             if (!this._enabled) return;
-            _INFO(this._createMessage(message));
+            this._output(_INFO, message, context, "");
         },
-        warn: function(message) {
-            if (!this._warn) return;
-            _WARN(this._createMessage(message));
-        },
-        error: function(message) {
+        warn: function(message, context) {
             if (!this._enabled) return;
-            _ERROR(this._createMessage(message));
+            this._output(_WARN, message, context, "");
+        },
+        error: function(message, context) {
+            if (!this._enabled) return;
+            this._output(_ERROR, message, context, "");
         },
         disable: function() {
             this._enabled = false;
@@ -71,6 +68,33 @@ define(function() {
         },
         dispose: function() {
             this._category = null;
+        },
+
+        _output: function(fn, message, context, from) {
+            var messagePretext = "";
+
+            //Add the object if available.
+            if (context !== undefined) {
+                if (typeof context === "string") {
+                    messagePretext += context;
+                }
+                else if (typeof context.name === "function") {
+                    messagePretext += context.name();
+                }
+                else if (typeof context.name === "string") {
+                    messagePretext += context.name;
+                }
+            }
+
+            if (from !== undefined) {
+                //Add the function name
+                if (messagePretext.length > 0) {
+                    messagePretext += ".";
+                }
+                messagePretext += from + ": ";
+            }
+
+            fn(messagePretext + message);
         }
     }
     return Logger;
