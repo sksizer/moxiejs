@@ -19,9 +19,20 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-define(function() {
+// The way this is documented results in what appears to be a <inner> function
+// being returned, which while accurate does not accurately reflect the meaning
+// of the API
+define(
+    /**
+     * @exports js/moxie/request_animation_frame
+     */
+    function() {
     // TODO - this was originally sourced from StackOverflow - attribute properly
     // shim layer with setTimeout fallback
+    /**
+     * 
+     * @type {Function}
+     */
     var requestAnimFrame = (function() {
         return  window.requestAnimationFrame ||
             window.webkitRequestAnimationFrame ||

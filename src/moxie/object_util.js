@@ -21,44 +21,68 @@
 
 define([], function() {
 
-    ObjectUtil = {};
-    ObjectUtil.getConfig = function(target, propName, defaultValue, throwError) {
-        if (target == null)
-            return defaultValue
-        else if (target.hasOwnProperty(propName))
-            return target[propName];
-        else if (throwError)
-            throw new Error('Required configuration parameter ' + propName
-                + ' was not provided.');
-        else
-            return defaultValue;
-    }
+    /**
+     * 
+     * @type {Object}
+     * 
+     * @exports js/moxie/ObjectUtil
+     */
+    ObjectUtil = {
+        /**
+         * @param {Object} target
+         * @param {String} propName
+         * @param {*} defaultValue
+         * @param {Boolean} throwError
+         * @return {*}
+         */
+        getConfig: function(target, propName, defaultValue, throwError) {
+            if (target == null)
+                return defaultValue
+            else if (target.hasOwnProperty(propName))
+                return target[propName];
+            else if (throwError)
+                throw new Error('Required configuration parameter ' + propName
+                    + ' was not provided.');
+            else
+                return defaultValue;
+        },
+        
+        // Usage: dump(object) 
+        // TODO - found and modified this from somewhere - find original attribution
+        // TODO:  What about JSON.stringify?
+        /**
+         * Produces a console friendly string output.
+         * 
+         * @param {Object} object
+         * @param {String} pad
+         * @return {String}
+         */
+        dump: function(object, pad) {
+            var indent = '\t'
+            if (!pad) pad = ''
+            var out = ''
+            if (object.constructor == Array) {
+                out += '[\n'
+                for (var i = 0; i < object.length; i++) {
+                    out += pad + indent + ObjectUtil.dump(object[i], pad + indent) + '\n'
+                }
+                out += pad + ']'
+            }
+            else if (object.constructor == Object) {
+                out += '{\n'
+                for (var i in object) {
+                    out += pad + indent + i + ': ' + ObjectUtil.dump(object[i], pad + indent) + '\n'
+                }
+                out += pad + '}'
+            }
+            else {
+                out += object
+            }
+            return out
+        }
+    };
 
-    // Usage: dump(object) 
-    // TODO - found and modified this from somewhere - find original attribution
-    ObjectUtil.dump = function(object, pad) {
-        var indent = '\t'
-        if (!pad) pad = ''
-        var out = ''
-        if (object.constructor == Array) {
-            out += '[\n'
-            for (var i = 0; i < object.length; i++) {
-                out += pad + indent + ObjectUtil.dump(object[i], pad + indent) + '\n'
-            }
-            out += pad + ']'
-        }
-        else if (object.constructor == Object) {
-            out += '{\n'
-            for (var i in object) {
-                out += pad + indent + i + ': ' + ObjectUtil.dump(object[i], pad + indent) + '\n'
-            }
-            out += pad + '}'
-        }
-        else {
-            out += object
-        }
-        return out
-    }
+
 
     return ObjectUtil;
 });

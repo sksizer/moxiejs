@@ -38,6 +38,8 @@ define(function() {
      * to be applied to the targetFunction when/if it gets called.
      * 
      * @constructor
+     * 
+     * @exports js/moxie/delayed_call
      */
     var DelayedCall = function(config) {
         if (config.hasOwnProperty('targetFunction')) {
@@ -55,7 +57,7 @@ define(function() {
 
     DelayedCall.prototype = {
         /**
-         * 
+         * Trigger the call
          */
         trigger: function() {
             if (this._timer) {
