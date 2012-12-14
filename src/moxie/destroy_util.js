@@ -1,10 +1,9 @@
 define([], function () {
     /**
-     * @type {Object}
-     * 
+     * DestroyUtil helps GC along.
      * @exports js/moxie/DestroyUtil
      */
-    DestroyUtil = {
+    var DestroyUtil = {
         /**
          * Given target object this function will perform a delete on all it's
          * properties.
