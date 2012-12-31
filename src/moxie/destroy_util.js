@@ -1,14 +1,17 @@
-define([], function () {
+define([], function() {
+
     /**
-     * DestroyUtil helps GC along.
-     * @exports js/moxie/DestroyUtil
+     * DestroyUtil provides destruction functions to make a browser GC algorithm's
+     * life easier.
+     * 
+     * @exports js/moxie/destroy_util
      */
     var DestroyUtil = {
         /**
          * Given target object this function will perform a delete on all it's
          * properties.
-         * 
-         * @param obj
+         *
+         * @param {Object} obj Target object to extinguish
          */
         destroy: function(obj) {
             for (var prop in obj) {

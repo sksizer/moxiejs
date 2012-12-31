@@ -23,6 +23,7 @@
 // being returned, which while accurate does not accurately reflect the meaning
 // of the API
 define(
+
     /**
      * @exports js/moxie/request_animation_frame
      */
@@ -30,7 +31,7 @@ define(
     // TODO - this was originally sourced from StackOverflow - attribute properly
     // shim layer with setTimeout fallback
     /**
-     * 
+     *
      * @type {Function}
      */
     var requestAnimFrame = (function() {
@@ -43,6 +44,8 @@ define(
                 window.setTimeout(callback, 1000 / 60);
             };
     })();
+
+    requestAnimFrame.FRAME_RATE = 1000 / 60;
 
     return requestAnimFrame;
 });

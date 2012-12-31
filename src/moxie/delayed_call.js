@@ -19,13 +19,25 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+/**
+ * @module js/moxie
+ */
 define(function() {
-    var DEFAULT_DELAY = 250; // in ms
+    /**
+     * Default delay before firing target function In milliseconds.
+     * 
+     * @static
+     * @readOnly
+     * @type {Number} 
+     */
+    var DEFAULT_DELAY = 250;
 
     /**
      * DelayedCall is useful for 'coallescing' a series of multiple triggers 
      * into only a single resultant function call.
      * 
+     * @class js.moxie.DelayedCall
+     * @constructor
      * @param config When constructing a delayedCall a user should supply a
      * configuration object with the following key values:
      * 
@@ -36,10 +48,6 @@ define(function() {
      * targetFunction.
      * - args (optional, defaults to null) - this is a bound array of arguments
      * to be applied to the targetFunction when/if it gets called.
-     * 
-     * @constructor
-     * 
-     * @exports js/moxie/delayed_call
      */
     var DelayedCall = function(config) {
         if (config.hasOwnProperty('targetFunction')) {
@@ -56,8 +64,10 @@ define(function() {
     }
 
     DelayedCall.prototype = {
+        
         /**
          * Trigger the call
+         * @method trigger
          */
         trigger: function() {
             if (this._timer) {
@@ -65,16 +75,19 @@ define(function() {
                 this._timer = null;
             }
             // TODO - function.bind is not available in all browsers
-            this._timer = setTimeout(this.fire.bind(this), this._delay);
+            this._timer = setTimeout(this._fire.bind(this), this._delay);
         },
+        
         /**
          * Causes the bound target function to be called.  Typically this is 
          * called indirectly by calling trigger.
          * @param event
+         * @private
          */
-        fire: function(event) {
+        _fire: function(event) {
             this._targetFunction.apply(this._thisObject, this._args);
         },
+        
         /**
          * Clears any currently running delayedCall and unbinds all variables 
          * and references the DelayedCall has to the targetFunction and supplied

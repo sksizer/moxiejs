@@ -19,16 +19,21 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+/**
+ * @module js/moxie/object_util
+ */
 define([], function() {
 
     /**
+     * Only one ObjectUtil module is instantiated.
      * 
+     * @exports js/moxie/object_util
      * @type {Object}
-     * 
-     * @exports js/moxie/ObjectUtil
+     * @alias module:js/moxie/object_util
      */
     ObjectUtil = {
         /**
+         * @function getConfig
          * @param {Object} target
          * @param {String} propName
          * @param {*} defaultValue
@@ -53,6 +58,8 @@ define([], function() {
         /**
          * Produces a console friendly string output.
          * 
+         * @static
+         * @function dump
          * @param {Object} object
          * @param {String} pad
          * @return {String}
