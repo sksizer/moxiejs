@@ -2,14 +2,14 @@
 <html>
 <head>
 	<script type='text/javascript' src='/js/require.js'></script>
-	<script type='text/javascript' src='/js/require_config.js'></script>
-	
+	<script type='text/javascript' src='/js/requireConfig.js'></script>
+
 	<title>Performance: FPS</title>
 	<script>
 		require_config.baseURL = '/';
-		require(require_config, ['domReady!', 
-			'/js/moxie/green_threader.js', 
-			'/js/moxie/perf_mon.js', 
+		require(require_config, ['domReady!',
+			'/js/moxie/green_threader.js',
+			'/js/moxie/perf_mon.js',
 			'jquery'], function (DomReady, GreenThreader, PerfMon, $) {
 
 			var fps = new PerfMon()

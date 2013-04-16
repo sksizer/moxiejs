@@ -1,10 +1,13 @@
-define(function() {
+define([
+], function(
+) {
+    'use strict';
     var Voluptuous = {
         checkValuesInArray: function(testArray, throwError) {
             if (throwError === undefined) {
                 throwError = false;
             }
-            
+
             for (var i = 0; i < testArray.length; i++) {
                 var obj = testArray[i];
                 if (obj === null || obj === undefined) {
@@ -18,7 +21,7 @@ define(function() {
         },
         validateNumber: function(testNumber, throwError) {
             if (typeof testNumber === 'number' && !isNaN(testNumber)) {
-                return true
+                return true;
             } else {
                 if (throwError) {
                     throw new Error('Voluptuous failed on number ' + testNumber);
@@ -27,6 +30,6 @@ define(function() {
                 }
             }
         }
-    }
+    };
     return Voluptuous;
 });
