@@ -190,7 +190,6 @@ define(['jquery', 'js/moxie/requestAnimationFrame'], function($, requestAnimatio
                 this.fpsContext.stroke();
 
 
-
                 this.fpsLast = this.fps;
                 this.fps5sLast = this.fps5s;
                 this.fps10sLast = this.fps10s;
