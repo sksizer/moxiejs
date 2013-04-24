@@ -1,13 +1,5 @@
-/**
- * Created with PyCharm.
- * User: dominicfrost
- * Date: 4/17/13
- * Time: 7:54 PM
- * To change this template use File | Settings | File Templates.
- */
-
 /*
- * Copyright (c) 2012 Shane Sizer
+ * Copyright (c) 2012 Shane Sizer, Dominic Frost
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -27,7 +19,13 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-define(['jquery', 'js/moxie/requestAnimationFrame'], function($, requestAnimationFrame) {
+define([
+    'jquery',
+    'js/moxie/requestAnimationFrame'
+], function(
+    $,
+    requestAnimationFrame
+) {
 
     'use strict';
 
@@ -35,6 +33,12 @@ define(['jquery', 'js/moxie/requestAnimationFrame'], function($, requestAnimatio
     };
 
     PerfMon.prototype._initialize = function() {
+        var BLACK = '#252120';
+        var WHITE = '#e5dfc5';
+        this.YELLOW = '#fff68f';
+        this.LIGHT_BLUE = '#6abedb';
+        this.RED = '#a92f41';
+        this.open = true;
         this.startTime = Date.now();
         this.currentTime = null;
         this.duration = null;
@@ -85,16 +89,16 @@ define(['jquery', 'js/moxie/requestAnimationFrame'], function($, requestAnimatio
 
         // DRAW LABELS
         var textVerticalCenterOffset = 3;
-        fpsScreenOverlayContext.fillStyle = '#252120';
+        fpsScreenOverlayContext.fillStyle = BLACK;
         fpsScreenOverlayContext.lineWidth = .7;
         fpsScreenOverlayContext.fillRect(0, 0, this.totalContentWidth, this. totalContentHeight);
-        fpsScreenOverlayContext.fillStyle = '#e5dfc5'
+        fpsScreenOverlayContext.fillStyle = WHITE;
         fpsScreenOverlayContext.fillText('60fps', 2, this.topMargin + 25 + textVerticalCenterOffset);
         fpsScreenOverlayContext.fillText('30fps', 2, (this.totalContentHeight + 25) / 2 + textVerticalCenterOffset);
         fpsScreenOverlayContext.fillText('0fps', 2, this.totalContentHeight - this.bottomMargin + textVerticalCenterOffset);
 
         // DRAW LINES
-        fpsScreenOverlayContext.strokeStyle = '#e5dfc5';
+        fpsScreenOverlayContext.strokeStyle = WHITE;
         fpsScreenOverlayContext.translate(this.leftMargin, 0);
         this.graphWidth = this.totalContentWidth - this.leftMargin - this.rightMargin;
 
@@ -127,74 +131,79 @@ define(['jquery', 'js/moxie/requestAnimationFrame'], function($, requestAnimatio
         this.framesCounter++;
         this.currentTime = Date.now();
         this.duration = this.currentTime - this.startTime;
-        if (this.duration > 1000) {
 
-            this.isFrozen = Math.round(this.duration/1000);
+        //UPDATE THE VISUALIZATION FRAME ONCE EVERY SECOND
+        if (this.duration > 1000) {
             this.fps = Math.round(this.duration / 1000 * this.framesCounter * 100) / 100;
             this.fpsValueMeter.text(this.fps);
 
-            for(var i = 0; i < this.isFrozen; i++){
-                if(this.isFrozen > 1){
-                    this.fps = 0;
-                }
-                console.log("FPS: " + this.fps);
+            //CHECK IF VISUALIZER IS OPEN
+            if(this.open) {
+                this.isFrozen = Math.round(this.duration/1000);
 
-                //SHIFT FRAME LEFT
-                var frame = this.fpsContext.getImageData(35, 0, this.graphWidth+1, this.totalContentHeight);
-                this.fpsContext.putImageData(frame, 30, 0);
+                //RUN THIS LOOP ONCE FOR EACH SECOND SINCE THE LAST VISUALIZER UPDATE
+                for(var i = 0; i < this.isFrozen; i++){
+                    if(this.isFrozen > 1)
+                        this.fps = 0;
+                    console.log("FPS: " + this.fps);
 
-                //ADD NEW FPS VALUE TO THE END OF THE ARRAYS
-                this.arr10s.push(this.fps);
-                this.arr5s.push(this.fps);
+                    //SHIFT FRAME LEFT 5px
+                    var frame = this.fpsContext.getImageData(35, 0, this.graphWidth+1, this.totalContentHeight);
+                    this.fpsContext.putImageData(frame, 30, 0);
 
-                //REMOVE OLDEST FPS VALUE FROM BEGINNING OF ARRAYS
-                if(this.arr10s.length > 10)
-                    this.arr10s.shift();
-                if(this.arr5s.length > 5)
-                    this.arr5s.shift();
+                    //ADD NEW FPS VALUE TO THE END OF THE ARRAYS
+                    this.arr10s.push(this.fps);
+                    this.arr5s.push(this.fps);
 
-                //AVERAGE THE FPS OVER 5s
-                for(var j = 0; j < this.arr5s.length; j++){
-                    this.fps5s += this.arr5s[j];
-                }
-                this.fps5s = this.fps5s/this.arr5s.length;
+                    //REMOVE OLDEST FPS VALUE FROM BEGINNING OF ARRAYS
+                    if(this.arr10s.length > 10)
+                        this.arr10s.shift();
+                    if(this.arr5s.length > 5)
+                        this.arr5s.shift();
 
-                //AVERAGE THE FPS OVER 10s
-                for(j = 0; j < this.arr10s.length; j++){
-                    this.fps10s += this.arr10s[j];
-                }
-                this.fps10s = this.fps10s/this.arr10s.length;
+                    //AVERAGE THE FPS OVER 5s
+                    for(var j = 0; j < this.arr5s.length; j++){
+                        this.fps5s += this.arr5s[j];
+                    }
+                    this.fps5s = this.fps5s/this.arr5s.length;
 
-                //DRAW LINE BETWEEN POINTS (1s AVG)
-                this.fpsContext.lineWidth = 2.0;
-                this.fpsContext.strokeStyle = '#fff68f';
-                this.fpsContext.beginPath();
-                this.fpsContext.moveTo(255, this.totalContentHeight - this.bottomMargin - this.fpsLast / 70 * 180);
-                this.fpsContext.lineTo(260, this.totalContentHeight - this.bottomMargin - this.fps / 70 * 180);
-                this.fpsContext.stroke();
+                    //AVERAGE THE FPS OVER 10s
+                    for(j = 0; j < this.arr10s.length; j++){
+                        this.fps10s += this.arr10s[j];
+                    }
+                    this.fps10s = this.fps10s/this.arr10s.length;
 
-                //DRAW LINE BETWEEN POINTS (5s AVG)
-                this.fpsContext.lineWidth = 2.0;
-                this.fpsContext.strokeStyle = '#6abedb';
-                this.fpsContext.beginPath();
-                this.fpsContext.moveTo(255, this.totalContentHeight - this.bottomMargin - this.fps5sLast / 70 * 180);
-                this.fpsContext.lineTo(260, this.totalContentHeight - this.bottomMargin - this.fps5s / 70 * 180);
-                this.fpsContext.stroke();
+                    //DRAW LINE BETWEEN POINTS (1s AVG)
+                    this.fpsContext.lineWidth = 2.0;
+                    this.fpsContext.strokeStyle = this.YELLOW;
+                    this.fpsContext.beginPath();
+                    this.fpsContext.moveTo(255, this.totalContentHeight - this.bottomMargin - this.fpsLast / 70 * 180);
+                    this.fpsContext.lineTo(260, this.totalContentHeight - this.bottomMargin - this.fps / 70 * 180);
+                    this.fpsContext.stroke();
 
-                //DRAW LINE BETWEEN POINTS (10s AVG)
-                this.fpsContext.lineWidth = 2.0;
-                this.fpsContext.strokeStyle = '#a92f41';
-                this.fpsContext.beginPath();
-                this.fpsContext.moveTo(255, this.totalContentHeight - this.bottomMargin - this.fps10sLast / 70 * 180);
-                this.fpsContext.lineTo(260, this.totalContentHeight - this.bottomMargin - this.fps10s / 70 * 180);
-                this.fpsContext.stroke();
+                    //DRAW LINE BETWEEN POINTS (5s AVG)
+                    this.fpsContext.lineWidth = 2.0;
+                    this.fpsContext.strokeStyle = this.LIGHT_BLUE;
+                    this.fpsContext.beginPath();
+                    this.fpsContext.moveTo(255, this.totalContentHeight - this.bottomMargin - this.fps5sLast / 70 * 180);
+                    this.fpsContext.lineTo(260, this.totalContentHeight - this.bottomMargin - this.fps5s / 70 * 180);
+                    this.fpsContext.stroke();
+
+                    //DRAW LINE BETWEEN POINTS (10s AVG)
+                    this.fpsContext.lineWidth = 2.0;
+                    this.fpsContext.strokeStyle = this.RED;
+                    this.fpsContext.beginPath();
+                    this.fpsContext.moveTo(255, this.totalContentHeight - this.bottomMargin - this.fps10sLast / 70 * 180);
+                    this.fpsContext.lineTo(260, this.totalContentHeight - this.bottomMargin - this.fps10s / 70 * 180);
+                    this.fpsContext.stroke();
 
 
-                this.fpsLast = this.fps;
-                this.fps5sLast = this.fps5s;
-                this.fps10sLast = this.fps10s;
-                this.fps5s = 0;
-                this.fps10s = 0;
+                    this.fpsLast = this.fps;
+                    this.fps5sLast = this.fps5s;
+                    this.fps10sLast = this.fps10s;
+                    this.fps5s = 0;
+                    this.fps10s = 0;
+                    }
                 }
             this.startTime = Date.now();
             this.framesCounter = 0;
