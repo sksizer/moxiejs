@@ -1,22 +1,196 @@
 <!DOCTYPE html>
 <html>
-<head>
-</head>
-<body>
-</body>
+    <head>
+        <script type='text/javascript' src='js/require.js'></script>
+        <script type='text/javascript' src='js/requireConfig.js'></script>
+
+        <title>Performance: FPS</title>
+        <script>
+            requireConfig.baseURL = '/';
+            require(requireConfig, ['domReady!',
+                'js/moxie/greenThreader.js',
+                'js/moxie/PerfMonDF.js',
+                'jquery'],
+                    function (
+                            DomReady,
+                            GreenThreader,
+                            PerfMon,
+                            $
+                            ) {
+
+                var fps = new PerfMon().setContainer(document.getElementById('fps'));
+                this.height = screen.height;
+
+                var runTest = function(n) {
+
+                    //empty loop for running timed tests
+                    for (var i = 0; i < 1000 * n; i++){}
+                };
+
+
+                document.getElementById("start5000").onclick = function(){
+                    runTest(5000);
+                };
+                document.getElementById("start10000").onclick = function(){
+                    runTest(10000);
+                };
+                document.getElementById("start10001").onclick = function(){
+                    runTest(10001);
+                };
+                document.getElementById("start11000").onclick = function(){
+                    runTest(11000);
+                };
+                document.getElementById("start11500").onclick = function(){
+                    runTest(11500);
+                };
+                document.getElementById("start12000").onclick = function(){
+                    runTest(12000);
+                };
+                document.getElementById("start13850").onclick = function(){
+                    runTest(13850);
+                };
+                document.getElementById("start17500").onclick = function(){
+                    runTest(17500);
+                };
+                document.getElementById("start25000").onclick = function(){
+                    runTest(25000);
+                };
+                document.getElementById("start50000").onclick = function(){
+                    runTest(50000);
+                };
+                document.getElementById("start100000").onclick = function(){
+                    runTest(100000);
+                };
+                document.getElementById("start1000000").onclick = function(){
+                    runTest(1000000);
+                };
+
+            });
+        </script>
+        <style>
+            #controls {
+                float: left;
+            }
+
+            #fps {
+                float: left;
+            }
+
+            #legend{
+                float: left;
+                width: 300px;
+                height: 20px;
+                margin-top: 224px;
+                font-family: 'Helvetica' sans-serif;
+                font-size: 14px;
+            }
+
+            #avg1s{
+                  float:left;
+                  border: 2px solid black;
+                  width: 15px;
+                  height: 15px;
+                  background-color: #fff68f;
+              }
+            #avg1sText{
+                float:left;
+                margin-top: -13px;
+                padding-left: 5px;
+                width: 60px;
+            }
+
+            #avg5s{
+                float:left;
+                border: 2px solid black;
+                width: 15px;
+                height: 15px;
+                background-color: #6abedb;
+            }
+            #avg5sText{
+                float:left;
+                margin-top: -13px;
+                padding-left: 5px;
+                width: 81px;
+            }
+
+            #avg10s{
+                float:right;
+                border: 2px solid black;
+                width: 15px;
+                height: 15px;
+                background-color: #a92f41;
+            }
+
+            #avg10sText{
+                float:right;
+                margin-top: -13px;
+                padding-left: 5px;
+                width: 81px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="controls">
+            <div>
+                <button id="start5000">Start - 5,000</button>
+            </div>
+            <div>
+                <button id="start10000">Start - 10,000</button>
+            </div>
+            <div>
+                <button id="start10001">Start - 10,001</button>
+            </div>
+            <div>
+                <button id="start11000">Start - 11,000</button>
+            </div>
+            <div>
+                <button id="start11500">Start - 11,500</button>
+            </div>
+            <div>
+                <button id="start12000">Start - 12,000</button>
+            </div>
+            <div>
+                <button id="start13850">Start - 13,850</button>
+            </div>
+            <div>
+                <button id="start17500">Start - 17,500</button>
+            </div>
+            <div>
+                <button id="start25000">Start - 25,000</button>
+            </div>
+            <div>
+                <button id="start50000">Start - 50,000</button>
+            </div>
+            <div>
+                <button id="start100000">Start - 100,000</button>
+            </div>
+            <div>
+                <button id="start1000000">Start - 1,000,000</button>
+            </div>
+        </div>
+
+        <div id="fps">
+        </div>
+
+        <div id="legend">
+
+            <div id="avg1s">
+            </div>
+            <div id="avg1sText">
+                <p>Current</p>
+            </div>
+            <div id="avg5s">
+            </div>
+            <div id="avg5sText">
+                <p>5s Average</p>
+            </div>
+            <div id="avg10sText">
+                <p>10s Average</p>
+            </div>
+            <div id="avg10s">
+                <p></p>
+            </div>
+
+        </div>
+    </body>
 </html>
-<!--// Delayed Call-->
-<!--var finalCall = function() {-->
-	<!--console.log('finalCall!');-->
-<!--}-->
-<!--var delayedCall = new DelayedCall({targetFunction:finalCall,delay:1000});-->
-<!--$('#trigger').on('click', function() {-->
-	<!--console.log('trigger click');-->
-	<!--delayedCall.trigger();-->
-<!--});-->
-		
-		
-function (DomReady, PerfMon, requestAnimFrame, $) {
-	var fps = new PerfMon()
-				.setContainer(document.getElementById('perfMonContainer'))
-});

@@ -38,20 +38,21 @@ define([
         this.YELLOW = '#fff68f';
         this.LIGHT_BLUE = '#6abedb';
         this.RED = '#a92f41';
-        this.open = true;
+        this.animOpen = true;               //boolean for turning animation frame on/off
+        this.frameOn = true;                //boolean for displaying running the frame rate program
         this.startTime = Date.now();
         this.currentTime = null;
         this.duration = null;
         this.fps = null;
-        this.fpsLast = 60;
+        this.fpsLast = 0;
         this.framesCounter = 0;
         this.lastTime = null;
         this.arr5s = [];
         this.fps5s = 0;
-        this.fps5sLast = 60;
+        this.fps5sLast = 0;
         this.arr10s = [];
         this.fps10s = 0;
-        this.fps10sLast = 60;
+        this.fps10sLast = 0;
 
 
         // DEFINE STYLES
@@ -124,6 +125,8 @@ define([
 
     PerfMon.prototype.update = function(/*time*/) {
         this.tick();
+        if(!this.frameOn)
+            return;
         requestAnimationFrame(this.update.bind(this));
     };
 
@@ -138,7 +141,7 @@ define([
             this.fpsValueMeter.text(this.fps);
 
             //CHECK IF VISUALIZER IS OPEN
-            if(this.open) {
+            if(this.animOpen) {
                 this.isFrozen = Math.round(this.duration/1000);
 
                 //RUN THIS LOOP ONCE FOR EACH SECOND SINCE THE LAST VISUALIZER UPDATE
